@@ -1,28 +1,37 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
+//adauga link ca param sau props
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(
-        'http://localhost:8080/management/login',
-        {
+      const response = await fetch('http://localhost:8080/management/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           username: email,
           password: password,
-        }
-      );
-
-      // If the login is successful, you may handle the response accordingly,
-      // such as storing the authentication token in localStorage or session storage.
-
-      console.log('Login successful', response.data);
+        }),
+      });
+  
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('Login successful', responseData);
+        navigate('/home',{ state: { email } }); 
+      } else {
+        console.error('Login error:', response.statusText);
+      }
     } catch (error) {
-      // If there's an error during login, handle it here.
-      console.error('Login error:', error);
+      console.error('Fetch error:', error);
     }
+   
   };
 
   return (
