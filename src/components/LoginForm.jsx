@@ -23,7 +23,9 @@ const LoginForm = () => {
       if (response.ok) {
         const responseData = await response.json();
         console.log('Login successful', responseData);
-        navigate('/home',{ state: { email } }); 
+        localStorage.setItem("email",email);
+        localStorage.setItem("password",password);
+        navigate('/home'); 
       } else {
         console.error('Login error:', response.statusText);
       }
