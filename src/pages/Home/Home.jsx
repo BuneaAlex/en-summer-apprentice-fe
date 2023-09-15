@@ -8,11 +8,44 @@ import { MainNavBar } from '../../components/MainNavBar';
 const Home = () => {
     
     const [events,setEvents] = useState([])
+    const [eventTypeSelected,setEventTypeSelected] = useState("")
+    const [venueTypeSelected,setVenueTypeSelected] = useState("")
 
     useEffect(()=>{
-		console.log('inside useEffect')
 		getAllEvents().then(events=>setEvents(events));
     },[]);
+
+    function generateEventTypeOptions() {
+      const optionsSet = new Set(events.map((event) => event.eventType));
+    
+      return (
+        <select id="event-type-select" value={eventTypeSelected} onChange={(e) => setEventTypeSelected(e.target.value)}>
+            <option value="">Event type...</option>
+          {Array.from(optionsSet).map((optionValue, index) => (
+            <option key={index} value={optionValue}>
+              {optionValue}
+            </option>
+          ))}
+        </select>
+        
+      );
+    }
+    
+    function generateVenueTypeOptions() {
+      const optionsSet = new Set(events.map((event) => event.venue.type));
+    
+    
+      return (
+        <select id="venue-type-select" value={venueTypeSelected} onChange={(e) => setVenueTypeSelected(e.target.value)}>
+            <option value="">Venue type...</option>
+            {Array.from(optionsSet).map((optionValue, index) => (
+              <option key={index} value={optionValue}>
+                {optionValue}
+              </option>
+            ))}
+        </select>
+      )
+    }
   
     return (
       <div id='homepage'>
@@ -25,13 +58,9 @@ const Home = () => {
                 placeholder="Filter by event name"
                 id="filter_event_name"
               />
-              <select id="event-type-select">
+              {generateEventTypeOptions()}
 
-              </select>
-
-              <select id="venue-type-select">
-
-              </select>
+              {generateVenueTypeOptions()}
             </div>
             <div className="events flex items-center justify-center flex-wrap">
               
