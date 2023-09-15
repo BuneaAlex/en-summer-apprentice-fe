@@ -10,3 +10,11 @@ export function status(response) {
 export function json(response) {
     return response.json()
 }
+
+export function authenticationHeaderSetter(headers)
+{
+    let username = localStorage.getItem('email');
+    let password = localStorage.getItem('password');
+    let encodedCredentials = btoa(username + ':' + password);
+    headers.append('Authorization', 'Basic ' + encodedCredentials);
+}
