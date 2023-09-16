@@ -8,6 +8,7 @@ import { OrderCard } from '../../components/OrderCard';
 const OrdersPage = () => {
 
     const [orders,setOrders] = useState([]);
+    const [priceSortAscending,setPriceSortAscending] = useState(true)
     
 
     useEffect( () => {
@@ -20,6 +21,19 @@ const OrdersPage = () => {
         setOrders(updatedOrders);
     }
 
+    function sortOrdersByPriceAscending() {
+        const sortedOrders = [...orders].sort((a, b) => a.totalPrice - b.totalPrice);
+        setOrders(sortedOrders);
+        setPriceSortAscending(false);
+    }
+
+
+    function sortOrdersByPriceDescending() {
+        const sortedOrders = [...orders].sort((a, b) => b.totalPrice - a.totalPrice);
+        setOrders(sortedOrders);
+        setPriceSortAscending(true);
+    }
+  
 
     return ( 
         <div id='orderspage'>
@@ -27,10 +41,19 @@ const OrdersPage = () => {
             <div id="content">
                 <h1 className="text-2xl mb-4 mt-8 text-center">Purchased Tickets</h1>
                 <div className="order-sort space-x-4"> 
-                    <button id="sort-price-order">
+                    <button id="sort-price-order" onClick={priceSortAscending ? sortOrdersByPriceAscending : sortOrdersByPriceDescending}>
                     Price
-                    <i className="fa-solid fa-arrow-up-wide-short" id="sort-asc-price-order"></i>
-                    <i className="fa-solid fa-arrow-down-short-wide hidden-icon" id="sort-desc-price-order"></i>
+                    {priceSortAscending ? (
+                        <>
+                        <i className="fa-solid fa-arrow-up-wide-short" id="sort-asc-price-order" />
+                        <i className="fa-solid fa-arrow-down-short-wide hidden-icon" id="sort-desc-price-order" />
+                        </>
+                    ) : (
+                        <>
+                        <i className="fa-solid fa-arrow-up-wide-short hidden-icon" id="sort-asc-price-order" />
+                        <i className="fa-solid fa-arrow-down-short-wide" id="sort-desc-price-order" />
+                        </>
+                    )}
                     </button>
 
                     <button id="sort-name-order">
