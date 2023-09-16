@@ -5,7 +5,7 @@ const bookOfStyles = {
     flex_center_container: ['flex','items-center', 'justify-center', 'flex-wrap']
 }
 
-export function useStyles(type)
+export function tailwindStyles(type)
 {
     if(typeof type === 'string')
         return bookOfStyles[type];

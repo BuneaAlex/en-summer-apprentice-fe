@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useStyles } from './styling/styles';
+import { tailwindStyles } from './styling/styles';
 import { addOrder } from '../api_calls/orders_calls';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -101,7 +101,7 @@ export const EventCard = ({event}) => {
                     <label htmlFor="tickets">Number of tickets:</label>
                     <input type="number" name="tickets" value={numberOfTickets} min="1" max="100" onChange={(e) => handleChangeTicketNumber(e)}/>
                     <p className="price-label">{priceLabelText}</p>
-                    <button className={[...useStyles('standard_button'), 'buy-ticket-btn'].join(' ')} onClick={() => handleBuyTicket()}>Confirm purchase</button>
+                    <button className={[...tailwindStyles('standard_button'), 'buy-ticket-btn'].join(' ')} onClick={() => handleBuyTicket()}>Confirm purchase</button>
                 </div>
             </div>
             <ToastContainer/>
