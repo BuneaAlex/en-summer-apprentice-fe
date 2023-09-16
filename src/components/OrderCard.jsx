@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useStyles } from './styling/styles';
 import { getEventById } from '../api_calls/events_calls';
 import './styling/OrderCard.css';
+import { deleteOrder } from '../api_calls/orders_calls';
 
-export const OrderCard = ({order}) => {
+export const OrderCard = ({order,onRemove}) => {
 
     const [numberOfTicketsSelected,setNumberOfTicketsSelected] = useState(order.numberOfTickets)
     const [initialTicketCategory,setInitialTicketCategory] = useState(order.ticketCategory?.description || '')
     const [selectedTicketCategory, setSelectedTicketCategory] = useState(order.ticketCategory?.description || '');
     const [event,setEvent] = useState(null);
-
+    
     useEffect(() => {
         getEventById(order.eventID).then(data => {setEvent(data)});
     },[])
@@ -27,6 +28,14 @@ export const OrderCard = ({order}) => {
           </select>
         );
       }
+
+    function handleDeleteOrder()
+    {
+      deleteOrder(order.orderID).then(data => 
+        {
+          onRemove();
+        });
+    }
 
     return ( 
         <div className='order-card rounded-lg bg-gray-200 p-4 m-4'>
@@ -55,7 +64,7 @@ export const OrderCard = ({order}) => {
                 />
                 </div>
 
-                <button className={[...useStyles('standard_button'), 'delete-order-btn'].join(' ')}>
+                <button className={[...useStyles('standard_button'), 'delete-order-btn'].join(' ')} onClick={() => handleDeleteOrder()}>
                     Delete
                 </button>
 

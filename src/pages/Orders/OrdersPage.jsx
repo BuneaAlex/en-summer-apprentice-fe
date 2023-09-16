@@ -14,6 +14,12 @@ const OrdersPage = () => {
         getAllOrders().then(orders => setOrders(orders));
     },[]);
 
+    function removeOrder(orderID)
+    {
+        const updatedOrders = orders.filter((order) => order.orderID !== orderID);
+        setOrders(updatedOrders);
+    }
+
 
     return ( 
         <div id='orderspage'>
@@ -34,8 +40,8 @@ const OrdersPage = () => {
                     </button>
                 </div>
                 <div className="orders flex items-center justify-center flex-wrap">
-                    {orders.map((order,index) => 
-                    <OrderCard key={index} order={order}/>
+                    {orders.map((order) => 
+                    <OrderCard key={order.orderID} order={order} onRemove={ () => removeOrder(order.orderID)}/>
                     )
                     }
                 </div>
