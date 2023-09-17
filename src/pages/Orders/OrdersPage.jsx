@@ -3,17 +3,27 @@ import { MainNavBar } from '../../components/MainNavBar';
 import './OrdersPage.css'
 import { getAllOrders } from '../../api_calls/orders_calls';
 import { OrderCard } from '../../components/OrderCard';
-
+import { HashLoader } from 'react-spinners';
 
 const OrdersPage = () => {
 
+    const [loading,setLoading] = useState(false)
     const [orders,setOrders] = useState([]);
     const [priceSortAscending,setPriceSortAscending] = useState(true)
     
 
     useEffect( () => {
         getAllOrders().then(orders => setOrders(orders));
+        addLoader(1500);
     },[]);
+
+    function addLoader(duration)
+    {
+      setLoading(true)
+      setTimeout(() => {
+        setLoading(false)
+      },duration)
+    }
 
     function removeOrder(orderID)
     {
@@ -38,6 +48,22 @@ const OrdersPage = () => {
     return ( 
         <div id='orderspage'>
             <MainNavBar/>
+
+            {
+            loading ?
+
+            <div className='loader'>
+                <HashLoader
+                color={"#de411b"}
+                loading={loading}
+                size={100}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+                />
+            </div>
+
+            :
+
             <div id="content">
                 <h1 className="text-2xl mb-4 mt-8 text-center">Purchased Tickets</h1>
                 <div className="order-sort space-x-4"> 
@@ -69,7 +95,9 @@ const OrdersPage = () => {
                     }
                 </div>
                 </div>
+            }
         </div>
+    
      );
 }
  
