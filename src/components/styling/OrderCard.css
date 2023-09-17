@@ -1,0 +1,30 @@
+.orders-actions
+{
+    display: grid;
+    gap: 0.3rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        "select ticket-num"
+        "del-btn upd-btn"
+        
+}
+
+.delete-order-btn
+{
+    grid-area: del-btn;
+}
+
+.update-order-btn
+{
+    grid-area: upd-btn;
+}
+
+.ticket-category
+{
+    grid-area:select;
+}
+
+.ticket-number-select 
+{
+    grid-area: ticket-num;
+}
