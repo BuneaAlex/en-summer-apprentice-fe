@@ -4,9 +4,11 @@ import {EventCard} from '../../components/EventCard';
 import './Home.css';
 import '../../components/styling/EventCard.css';
 import { MainNavBar } from '../../components/MainNavBar';
+import { HashLoader } from 'react-spinners';
 
 const Home = () => {
     
+    const [loading,setLoading] = useState(false)
     const [events,setEvents] = useState([])
     const [eventTypeSelected,setEventTypeSelected] = useState("")
     const [venueTypeSelected,setVenueTypeSelected] = useState("")
@@ -17,6 +19,7 @@ const Home = () => {
 
     useEffect(()=>{
 		getAllEvents().then(events=>setEvents(events));
+      addLoader(1500)
     },[]);
 
     useEffect(()=>{
@@ -45,6 +48,14 @@ const Home = () => {
       }
       
     },[eventTypeSelected,venueTypeSelected]);
+
+    function addLoader(duration)
+    {
+      setLoading(true)
+      setTimeout(() => {
+        setLoading(false)
+      },duration)
+    }
 
 
     function generateEventTypeOptions() {
@@ -85,7 +96,10 @@ const Home = () => {
         setEventTypeSelected((previousEventType) => newEventType)
 
         getEventsFiltered(newEventType,venueTypeSelected)
-        .then(data => setFilteredEvents(data))
+        .then(data => {
+          setFilteredEvents(data)
+          addLoader(1000);
+        })
     }
 
     function filterEventsByVenueType(e)
@@ -94,7 +108,10 @@ const Home = () => {
         setVenueTypeSelected((previousVenueType) => newVenueType)
 
         getEventsFiltered(eventTypeSelected,newVenueType)
-        .then(data => setFilteredEvents(data))
+        .then(data => {
+          setFilteredEvents(data)
+          addLoader(1000);
+        })
     }
 
     function filterEventsByName(e)
@@ -119,7 +136,22 @@ const Home = () => {
       <div id='homepage'>
           <MainNavBar/>
 
-          <div id="content" >
+          {
+            loading ?
+
+            <div className='loader'>
+                <HashLoader
+                color={"#de411b"}
+                loading={loading}
+                size={100}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+                />
+            </div>
+
+            :
+
+            <div id="content" >
             <div className="event-filters">
               <input
                 type="text"
@@ -141,6 +173,7 @@ const Home = () => {
                 }
             </div>
           </div>
+          }
       </div>
       
     );
