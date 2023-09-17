@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { tailwindStyles } from './styling/styles';
 
 //adauga link ca param sau props
 const LoginForm = () => {
@@ -36,24 +37,26 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
+    <div className={[...tailwindStyles('flex_center_container')].join(' ')}>
       <h2>Login</h2>
       <form>
-        <input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="button" onClick={handleLogin}>
-          Login
-        </button>
+        <div className={[...tailwindStyles('flex_center_container'),...tailwindStyles('standard_form'),'m-4'].join(' ')}>
+          <input
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button type="button" className={[...tailwindStyles('standard_button')].join(' ')} onClick={handleLogin}>
+            Login
+          </button>
+          </div>
       </form>
     </div>
   );
